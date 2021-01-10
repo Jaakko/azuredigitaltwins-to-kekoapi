@@ -4,6 +4,11 @@ This repo will define how Azure Digital Twins (ADT) Platform models and data can
 
 You can find below example queries how KEKO APIs related to Building Information Models (BIM) and Indoor environmental quality. The existing KEKO APIs are here  https://developer.kekoecosystem.com/develop/resources/api-listing/ 
 
+
+The example case used is a modified version of the case presented in original document presenting [the DTDL use of RealEstateCore] (https://github.com/Azure/opendigitaltwins-building#using-realestatecore-ontology).
+
+![image](https://drive.google.com/uc?export=view&id=/1eeNp_BzVsgpMcYXhRVNfAB-aO3piO4pC)
+
 ## Building Information Model
 
 /bim/areas/{building_id}, where building_id=Building121
@@ -30,4 +35,7 @@ You can find below example queries how KEKO APIs related to Building Information
 
 Other sensory data can be added similarly.
 
-NExt steps is to have full set of mappings and Digital Twins Desription Models required for implementing KEKO APIs.
+
+
+Next steps is to have full set of mappings and Digital Twins Desription Models required for implementing KEKO APIs.
+
