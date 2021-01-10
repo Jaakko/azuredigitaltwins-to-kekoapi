@@ -158,13 +158,5 @@ namespace KEKO
         {
             log = logger;
         }
-
-        public class ErrorMessage
-        {
-            public int statusCode { get; set; }
-
-            public string message { get; set; }
-
-        }
     }
 }
