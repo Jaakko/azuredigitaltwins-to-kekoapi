@@ -19,7 +19,11 @@ using System.Net;
 
 namespace KEKO
 {
-
+    /*
+     * Example implementation of BIM APIs
+     * Currently demonstrated operations:
+     *  - GET bim/areas/{buildingId}
+     */
     public static class BIMAreasAPI
     {
 

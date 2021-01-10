@@ -18,7 +18,11 @@ using Azure.Identity;
 
 namespace KEKO
 {
-
+    /*
+    * Example implementation of BIM APIs
+    * Currently demonstrated operations:
+    *  - GET environment/sensors/{buildingId}
+    */
     public static class EnvSensorsAPI
     {
 
