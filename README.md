@@ -1,6 +1,8 @@
 # azuredigitaltwins-to-kekoapi
 
-This repo will define how Azure Digital Twins (ADT) Platform models and data can be transformed to KEKO APIs. ADT provides query languange which allows quering ADT for digital twins and properties. You can learn more about ADT query language from here https://docs.microsoft.com/en-us/azure/digital-twins/concepts-query-language.
+This repo defines how Azure Digital Twins (ADT) Platform, data models and instance data can be transformed to KEKO APIs. 
+
+You may want to get familiar with ADT by learning more from [here](https://docs.microsoft.com/en-us/azure/digital-twins/overview). Digital Twins Definition Language (DTDL) language and RealEstateCore ontology are central concepts and they can be learned from [this article](https://github.com/Azure/opendigitaltwins-building). ADT provides query languange which allows quering digital twins and their properties from ADT platform. More about DTDL query language is described [here](https://docs.microsoft.com/en-us/azure/digital-twins/concepts-query-language). 
 
 You can find below example queries how KEKO APIs related to Building Information Models (BIM) and Indoor environmental quality. The existing KEKO APIs are here  https://developer.kekoecosystem.com/develop/resources/api-listing/ 
 
@@ -10,7 +12,7 @@ The example case for which also the demo implementation is included is based on 
 
 ![Example building graph](https://drive.google.com/uc?export=view&id=1eeNp_BzVsgpMcYXhRVNfAB-aO3piO4pC)
 
-Example responses from the demo are included in below.
+Demo is implemented using Azure Functions which interact with Azure Digital Twin platform. Example responses from the demo are included in below.
 
 ## Building Information Model
 
