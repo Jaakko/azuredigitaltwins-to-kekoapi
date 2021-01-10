@@ -7,7 +7,7 @@ You can find below example queries how KEKO APIs related to Building Information
 
 The example case used is a modified version of the case presented in original document presenting [the DTDL use of RealEstateCore] (https://github.com/Azure/opendigitaltwins-building#using-realestatecore-ontology).
 
-![image](https://drive.google.com/uc?export=view&id=/1eeNp_BzVsgpMcYXhRVNfAB-aO3piO4pC)
+![example building graph](https://drive.google.com/uc?export=view&id=1eeNp_BzVsgpMcYXhRVNfAB-aO3piO4pC)
 
 ## Building Information Model
 
