@@ -10,4 +10,16 @@
 
         public string building_id { get; set; }
     }
+
+    public class HumiditySensor
+    {
+        public string name { get; set; }
+
+        public string resource_id { get; set; }
+
+        public string humidity { get; set; }
+
+        public string timestamp { get; set; }
+
+    }
 }

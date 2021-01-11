@@ -78,10 +78,22 @@ Demo example response:
 ]
 ```
 
-GET /environmental/humidity/{building_id}/{resource_id}, where building_id=Building121 and resource_id=Humidity1
+GET /environmental/humidity/{building_id}/{resource_id}, where building_id=Building121 and resource_id=Room2
 
 Azure Digital Twin query:
-`SELECT Sensor FROM DIGITALTWINS Sensor where Sensor.$dtId = 'Humidity1' AND IS_OF_MODEL(Sensor, 'dtmi:digitaltwins:rec_3_3:core:HumiditySensor;1')`
+`SELECT Room,Sensor, Building FROM DIGITALTWINS Room JOIN Level RELATED Room.isPartOf JOIN Sensor RELATED Room.hasCapability JOIN Building RELATED Level.isPartOf where Room.$dtId='Room2' AND Building.$dtId = 'Building121' AND IS_OF_MODEL(Room, 'dtmi:digitaltwins:rec_3_3:core:Room;1') AND IS_OF_MODEL(Sensor, 'dtmi:digitaltwins:rec_3_3:core:HumiditySensor;1') AND IS_OF_MODEL(Level, 'dtmi:digitaltwins:rec_3_3:core:Level;1') AND IS_OF_MODEL(Building, 'dtmi:digitaltwins:rec_3_3:core:Building;1')`
+
+Demo example response:
+```
+[
+  {
+    "name": "Test Building 121",
+    "resource_id": "Room2",
+    "humidity": "12",
+    "timestamp": "2020-12-28T21:56:16.375Z"
+  }
+]
+```
 
 Other sensory data can be added similarly.
 

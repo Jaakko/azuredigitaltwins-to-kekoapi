@@ -41,8 +41,8 @@ namespace KEKO
         }
 
         [FunctionName("GetEnvSensorsAPI")]
-        public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "environment/sensors/{buildingId}")] HttpRequest req,
+        public static async Task<HttpResponseMessage> GetEnvSensors(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "environmental/sensors/{buildingId}")] HttpRequest req,
             string buildingId, ILogger log)
         {
 
@@ -112,6 +112,89 @@ namespace KEKO
                         area_id = levelTwin.Id,
                         resource_id = sensorTwin.Id,
                         type = sensorTwin.Metadata.ModelId
+
+                    };
+
+                    //Add area to response list of areas
+                    sensors.Add(sensor);
+                }
+
+            }
+            log.LogInformation("Successfully responding to query");
+
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonSerializer.Serialize(sensors))
+            };
+        }
+
+        [FunctionName("GetEnvHumidityAPI")]
+        public static async Task<HttpResponseMessage> GetEnvHumidityAPI( 
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "environmental/humidity/{buildingId}/{resourceId}")] 
+        HttpRequest req, string buildingId, string resourceId, ILogger log)
+        {
+
+            log.LogInformation("GetEnvHumidityAPI function processing a request.");
+
+            // Set log 
+            SetupLogging(log);
+
+            //Basic query format
+            string queryFormat = "SELECT Room, Sensor, Building FROM DIGITALTWINS Room JOIN Level RELATED Room.isPartOf JOIN Sensor RELATED Room.hasCapability JOIN Building RELATED Level.isPartOf where Room.$dtId='{0}' AND Building.$dtId = '{1}' AND IS_OF_MODEL(Room, 'dtmi:digitaltwins:rec_3_3:core:Room;1') AND IS_OF_MODEL(Sensor, 'dtmi:digitaltwins:rec_3_3:core:HumiditySensor;1') AND IS_OF_MODEL(Level, 'dtmi:digitaltwins:rec_3_3:core:Level;1') AND IS_OF_MODEL(Building, 'dtmi:digitaltwins:rec_3_3:core:Building;1')";
+
+            //Populate query
+            string query = String.Format(queryFormat, resourceId, buildingId);
+
+            log.LogInformation($"Submitting query: {query}...");
+
+            List<BasicDigitalTwin> resultList = await Query(query);
+
+            // Sending not found if response empty
+            if (resultList == null || resultList.Count == 0)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.NotFound,
+                    Content = new StringContent(JsonSerializer.Serialize(
+                        new ErrorMessage()
+                        {
+                            statusCode = 404,
+                            message = "Not found"
+                        }
+                        ))
+                };
+
+            }
+
+            //Response list of areas
+            List<HumiditySensor> sensors = new List<HumiditySensor>();
+
+            if (resultList != null)
+            {
+                foreach (BasicDigitalTwin item in resultList)
+                {
+                    log.LogInformation(JsonSerializer.Serialize(item));
+
+                    //Get sensor raw text
+                    string sensorRawText = ((JsonElement)item.Contents["Sensor"]).GetRawText();
+
+                    //Parse raw text into sensor object
+                    var sensorTwin = JsonSerializer.Deserialize<BasicDigitalTwin>(sensorRawText);
+
+                    //Get room raw text
+                    string buildingRawText = ((JsonElement)item.Contents["Building"]).GetRawText();
+
+                    //Parse raw text into room object
+                    var buildingTwin = JsonSerializer.Deserialize<BasicDigitalTwin>(buildingRawText);
+
+                    //Fill area data
+                    HumiditySensor sensor = new HumiditySensor()
+                    {
+                        name  = ((JsonElement)buildingTwin.Contents["name"]).GetString(),
+                        humidity = ((JsonElement)sensorTwin.Contents["hasValue"]).GetSingle().ToString(),
+                        resource_id = resourceId,
+                        timestamp = sensorTwin.Metadata.PropertyMetadata["hasValue"].LastUpdatedOn.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'")
 
                     };
 
